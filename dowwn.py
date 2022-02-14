@@ -1,7 +1,7 @@
 from pyrogram import Client,filters
 from pyrogram.types import*
 import os,pyminizip,random
-from time import time
+from time import time,sleep
 from pyrogram.types import ChatPermissions
 import youtube_dl
 from pytube import YouTube
@@ -92,7 +92,7 @@ def download_youtube(client,message):
     message.reply(caption+"📥📤**Downloading and Uploading...**")
     with ydl:
         ydl.download([url])
-    time.sleep(3)
+    sleep(3)
     if (file_exists("reza.mp4.part")):
         os.rename("reza.mp4.part","reza.mp4")
     if (file_exists("reza.mp4.PART")):
