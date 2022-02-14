@@ -1,0 +1,4 @@
+pyrogram
+pyminizip
+youtube-dl
+pytube
