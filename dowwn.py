@@ -88,11 +88,11 @@ def download_youtube(client,message):
     url=str(message.text)[3:]
     infor=YouTube(url)
     caption=f"📝**Title:** `{infor.title}`\n👀**Views:** {infor.views}\n⏮⏸▶️⏹⏭**Length:** {infor.length} s\n🏅🎖**Rating:** {infor.rating}\n"
-    ydl = youtube_dl.YoutubeDL({'outtmpl': "reza.mp4"})
     message.reply(caption+"📥📤**Downloading and Uploading...**")
-    with ydl:
-        ydl.download([url])
-    sleep(3)
+    yyt={"outtmpl": "reza.mp4"}
+    with youtube_dl.YoutubeDL(yyt) as file:
+        file.download([url])
+    time.sleep(3)
     if (file_exists("reza.mp4.part")):
         os.rename("reza.mp4.part","reza.mp4")
     if (file_exists("reza.mp4.PART")):
