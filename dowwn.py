@@ -1,7 +1,7 @@
 from pyrogram import Client,filters
 from pyrogram.types import*
 import os,pyminizip,random
-from time import time,sleep
+import time
 from pyrogram.types import ChatPermissions
 import youtube_dl
 from pytube import YouTube
@@ -269,12 +269,12 @@ def ChatPermis(client,message):
         if message.reply_to_message:
             tim=int(str(message.text)[7:])
             id=message.reply_to_message.from_user.id
-            client.restrict_chat_member(message.chat.id,id,ChatPermissions(),int(time()+(60*tim)))
+            client.restrict_chat_member(message.chat.id,id,ChatPermissions(),int(time.time()+(60*tim)))
         else:
             text=str(message.text)[7:]
             id=text.split()[0]
             tim=int(text.replace(id,""))
-            client.restrict_chat_member(message.chat.id,id,ChatPermissions(can_send_messages=False,can_send_media_messages=False,can_invite_users=False),int(time()+(60*tim)))
+            client.restrict_chat_member(message.chat.id,id,ChatPermissions(can_send_messages=False,can_send_media_messages=False,can_invite_users=False),int(time.time()+(60*tim)))
         message.reply(f"🤐کاربر با ایدی عددی 🆔{id} برای 🕧{tim} دقیقه ساکت شد.🤐 \n♋️برای خارج کردن از حالت سکوت دستور زیر را کپی و ارسال کنید.📄\n->`Unsilent {id}`")
     else:
         message.reply("برو بچه جان با دم شیر بازی نکن\nاین دستور برای مدیر و ادمین هاست")
