@@ -88,17 +88,17 @@ def download_youtube(client,message):
     url=str(message.text)[3:]
     infor=YouTube(url)
     caption=f"📝**Title:** `{infor.title}`\n👀**Views:** {infor.views}\n⏮⏸▶️⏹⏭**Length:** {infor.length} s\n🏅🎖**Rating:** {infor.rating}\n"
-    message.reply(caption+"📥📤**Downloading and Uploading...**")
-    yyt={"outtmpl": "reza.mp4"}
-    with youtube_dl.YoutubeDL(yyt) as file:
+    message.reply(caption+"-_-_-_-_-_-_-_-_-_-_-_-_-_-\n📥📤**Downloading and Uploading...**")
+    with youtube_dl.YoutubeDL({}) as file:
         file.download([url])
     time.sleep(3)
-    if (file_exists("reza.mp4.part")):
-        os.rename("reza.mp4.part","reza.mp4")
-    if (file_exists("reza.mp4.PART")):
-        os.rename("reza.mp4.PART","reza.mp4")
-    message.reply_video("reza.mp4",caption=caption)
-    os.remove("reza.mp4")
+    list_suffix=['mp4','webm']
+    for file in os.listdir():
+        for index in list_suffix:
+            if file.endswith(f".{index}"):
+                filer=os.path.join(file)
+    message.reply_document(filer,caption=caption)
+    os.remove(filer)
     
 @app.on_message(filters.group & filters.regex("^(l|L)ock$")& filters.user(618260788))
 def lock(client,message):
