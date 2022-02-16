@@ -103,7 +103,7 @@ def base_number_btok(number,d_base):
 def base_number_ktob(number,s_base):
     number_txt=str(number)[::-1]
     sum=0
-    count=1
+    count=0
     for i in number_txt:
         sum+=int(i)*(s_base**count)
         count+=1
@@ -126,7 +126,7 @@ def change_base(client,message):
         if s_base>d_base:
             result=base_number_btok(number,d_base)
         else:
-            result=base_number_ktob(number,d_base)
+            result=base_number_ktob(number,s_base)
         message.reply(f"**Resulte:** `{result}`")
     else:
         message.reply("یکم دقت کن\nعدد در مبنای داده شده نیس یا مبنا ها از 10 بیشتر هستند\n در حال حاضر فقط تبدیل اعداد در مبناهای کوچک تر از 10 امکان پذیر است!!!!")
