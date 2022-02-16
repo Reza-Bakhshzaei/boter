@@ -31,7 +31,15 @@ list_locked={}
 #     file=fil.read()
 #     exis=file.find(str(user))
 #     return exis-
-
+def is_admin(client,message):
+    list=[]
+    for admin in client.get_chat_members(chat_id=message.chat.id,filter="administrators"):
+        list.append(admin.user.id)
+    if message.from_user.id in list:
+        return True
+    else:
+        return False
+    
 def find_message(text):
     list=[]
     file=open("defult_answer.text","r",encoding="UTF-8")
@@ -83,6 +91,46 @@ def imogis(imogi):
         rand=random.randint(0,size-1)
         return list[rand]
 
+def base_number_btok(number,d_base):
+    text=""
+    while number:
+        print(number)
+        rest=number%d_base
+        text+=str(rest)
+        number=int(number/d_base)
+    return text[::-1]
+
+def base_number_ktob(number,s_base):
+    number_txt=str(number)[::-1]
+    sum=0
+    count=0
+    for i in number_txt:
+        sum+=int(i)*(s_base**count)
+        count+=1
+    return sum
+
+def check_number(number,s_base):
+    for i in number:
+        if i>=s_base:
+            return 0
+    return 1
+
+@app.on_message(filters.group & filters.regex("^(t|T)abdil "))
+def change_base(client,message):
+    text=message.text
+    text=text.split()
+    s_base=text[0]
+    d_base=text[1]
+    number=text[2]
+    if( check_number(number,s_base)==1) and (s_base<=10 and d_base<=10):
+        if s_base>d_base:
+            result=base_number_btok(number,d_base)
+        else:
+            result=base_number_ktob(number,d_base)
+        message.reply(f"**Resulte:** `{result}`")
+    else:
+        message.reply("یکم دقت کن\nعدد در مبنای داده شده نیس یا مبنا ها از 10 بیشتر هستند\n در حال حاضر فقط تبدیل اعداد در مبناهای کوچک تر از 10 امکان پذیر است!!!!")
+
 @app.on_message(filters.group & filters.regex("^(d|D)l "))
 def download_youtube(client,message):
     url=str(message.text)[3:]
@@ -104,15 +152,12 @@ def download_youtube(client,message):
 def lock(client,message):
     global list_locked
     swit=0
-    list=[]
-    for admin in client.get_chat_members(chat_id=message.chat.id,filter="administrators"):
-        list.append(admin.user.id)
     for i,k in list_locked.items():
         if i==int(message.chat.id):
             swit=1
-    if (swit==1)and(message.from_user.id in list):
+    if (swit==1)and(is_admin(client,message)):
        message.reply("🔒گروه قفل بود!")
-    elif (swit==0)and(message.from_user.id in list):
+    elif (swit==0)and(is_admin(client,message)):
         list_locked[int(message.chat.id)]=True
         message.reply("🔒قفل گروه فعال شد!")
     else:
@@ -121,17 +166,14 @@ def lock(client,message):
 @app.on_message(filters.group & filters.regex("^(u|U)nlock$"))
 def lock(client,message):
     global list_locked
-    list=[]
     swit=0
     for i,k in list_locked.items():
         if i==int(message.chat.id):
             swit=1
-    for admin in client.get_chat_members(chat_id=message.chat.id,filter="administrators"):
-        list.append(admin.user.id)
-    if (swit==1)and(message.from_user.id in list):
+    if (swit==1)and(is_admin(client,message)):
         list_locked.pop(int(message.chat.id))
         message.reply("🔓قفل گروه غیر فعال شد!")
-    elif (swit==0)and(message.from_user.id in list):
+    elif (swit==0)and(is_admin(client,message)):
         message.reply("🔓گروه باز بود!")
     else:
         message.reply("برو بچه جان با دم شیر بازی نکن\nاین دستور برای مدیر و ادمین هاست")
@@ -183,10 +225,7 @@ def delete_message(client,message):
     message_id=message.message_id
     chat_id=message.chat.id
     count=message.text[4:]
-    list=[]
-    for admin in client.get_chat_members(chat_id=message.chat.id,filter="administrators"):
-        list.append(admin.user.id)
-    if message.from_user.id in list:
+    if is_admin(client,message):
         if count=="all":
             count=message_id
         list_id=[]
@@ -244,28 +283,22 @@ def tag_all(client,message):
     list.append("قال مدیر(ع):\nوای بر انان که فعال نیستند \nبترسید از روزی که اخراج شوید😒")
     tex=list[random.randint(0,len(list)-1)]
     text=tex+"\n"
-    list_admn=[]
-    for admin in client.get_chat_members(chat_id=message.chat.id,filter="administrators"):
-        list_admn.append(admin.user.id)
-    if message.from_user.id in list_admn:
+    if is_admin(client,message):
         list_bot=[]
-        for admin in client.get_chat_members(chat_id=message.chat.id,filter="bots"):
-            list_bot.append(admin.user.id)
-            members=app.get_chat_members(f"{message.chat.id}")
-            for member in members:
-                id=member.user.id
-                if (str(id)!="5102000083")and(not(id in list_bot)):
-                    text+=f"[{member.user.first_name}](tg://user?id={id}) O_o "
-            message.reply(text,parse_mode="markdown") 
+        for bots in client.get_chat_members(chat_id=message.chat.id,filter="bots"):
+            list_bot.append(bots.user.id)
+        members=app.get_chat_members(f"{message.chat.id}")
+        for member in members:
+            id=member.user.id
+            if (str(id)!="5102000083")and(not(id in list_bot)):
+                text+=f"[{member.user.first_name}](tg://user?id={id}) O_o "
+        message.reply(text,parse_mode="markdown") 
     else:
         message.reply("برو بچه جان با دم شیر بازی نکن\nاین دستور برای مدیر و ادمین هاست")
 
 @app.on_message(filters.group & filters.regex("^(s|S)ilent "))
 def ChatPermis(client,message):
-    list=[]
-    for admin in client.get_chat_members(chat_id=message.chat.id,filter="administrators"):
-        list.append(admin.user.id)
-    if message.from_user.id in list:
+    if is_admin(client,message):
         if message.reply_to_message:
             tim=int(str(message.text)[7:])
             id=message.reply_to_message.from_user.id
@@ -281,10 +314,7 @@ def ChatPermis(client,message):
 
 @app.on_message(filters.group & filters.regex("^(u|U)nsilent "))
 def ChatPermis(client,message):
-    list=[]
-    for admin in client.get_chat_members(chat_id=message.chat.id,filter="administrators"):
-        list.append(admin.user.id)
-    if message.from_user.id in list:
+    if is_admin(client,message):
         id=str(message.text)[9:]
         client.restrict_chat_member(message.chat.id,id,ChatPermissions(can_send_messages=True,can_send_media_messages=True,can_invite_users=True))
         message.reply(f"😁کاربر با ایدی 🆔{id} از حالت سکوت خارج شد.😁")
@@ -293,10 +323,7 @@ def ChatPermis(client,message):
 
 @app.on_message(filters.group & filters.regex("^(p|P)in$"))
 def pin_message(client,message):
-    list=[]
-    for admin in client.get_chat_members(chat_id=message.chat.id,filter="administrators"):
-        list.append(admin.user.id)
-    if message.from_user.id in list:
+    if is_admin(client,message):
         client.pin_chat_message(chat_id=message.chat.id,message_id=message.reply_to_message.message_id)
         message.reply("✅")
     else:
@@ -304,10 +331,7 @@ def pin_message(client,message):
 
 @app.on_message(filters.group & filters.regex("^(u|U)npin$"))
 def unpin_message(client,message):
-    list=[]
-    for admin in client.get_chat_members(chat_id=message.chat.id,filter="administrators"):
-        list.append(admin.user.id)
-    if message.from_user.id in list:
+    if is_admin(client,message):
         client.unpin_chat_message(chat_id=message.chat.id,message_id=message.reply_to_message.message_id)
         message.reply("✅")
     else:
@@ -315,10 +339,7 @@ def unpin_message(client,message):
 
 @app.on_message(filters.group & filters.regex("^(b|B)an$"))
 def ban_user(client,message):
-    list=[]
-    for admin in client.get_chat_members(chat_id=message.chat.id,filter="administrators"):
-        list.append(admin.user.id)
-    if message.from_user.id in list:
+    if is_admin(client,message):
         id=message.reply_to_message.from_user.id
         message.chat.kick_member(id)
         message.reply("✅")
@@ -327,10 +348,7 @@ def ban_user(client,message):
 
 @app.on_message(filters.group & filters.regex("^(d|D)el "))
 def delete_message(client,message):
-    list=[]
-    for admin in client.get_chat_members(chat_id=message.chat.id,filter="administrators"):
-        list.append(admin.user.id)
-    if message.from_user.id in list:
+    if is_admin(client,message):
         message_id=message.message_id
         chat_id=message.chat.id
         count=message.text[4:]
@@ -342,29 +360,27 @@ def delete_message(client,message):
         client.delete_messages(chat_id,list_id)
         message.reply("✅")
     else:
-        pass
+        message.reply("برو بچه جان با دم شیر بازی نکن\nاین دستور برای مدیر و ادمین هاست")
 
-@app.on_message(filters.group  & filters.regex("^(p|P)anel$")&filters.user(618260788))
+@app.on_message(filters.group  & filters.regex("^(p|P)anel$"))
 def panel(client,message):
-    message.reply(PANEL)
+    if is_admin(client,message):
+        message.reply(PANEL)
+    else:
+        message.reply("برو بچه جان با دم شیر بازی نکن\nاین دستور برای مدیر و ادمین هاست")
 
 
 @app.on_message(filters.group  & filters.regex("^(t|T)add "))
 def add_text(client,message):
     txt=str(message.text)
-    f=txt[:5]
+    f=txt[5:]
     text=txt.replace(f,"")
     tx=text.replace(" ","_")
-    list=[]
-    for member in client.get_chat_members(chat_id=message.chat.id,filter="all"):
-        list.append(member.user.id)
-    if message.from_user.id in list:
-        file=open("defult_answer.text","a",encoding="UTF-8")
-        file.write(tx+"\n")
-        file.close()
-        message.reply("ممنونم ازت دوست عزیزم که بهم کلمه یاد میدیی😍😍❤️")
-    else:
-        pass
+    file=open("defult_answer.text","a",encoding="UTF-8")
+    file.write(tx+"\n")
+    file.close()
+    message.reply("ممنونم ازت دوست عزیزم که بهم کلمه یاد میدیی😍😍❤️")
+
 
 @app.on_message(filters.group&filters.regex("^(l|L)ist$")&filters.user(618260788))
 def list_kalamat(client,message):
@@ -382,15 +398,12 @@ def list_kalamat(client,message):
 @app.on_message(filters.group&filters.all)
 def defulte_answer(client,message):
     global list_locked
-    list=[]
     swit=0
     for i,k in list_locked.items():
         if i==int(message.chat.id):
             swit=1
     if swit==1:
-        for admin in client.get_chat_members(chat_id=message.chat.id,filter="administrators"):
-            list.append(admin.user.id)
-        if (not(message.from_user.id in list)):
+        if (not(is_admin(client,message))):
             message.reply("🔒گروه قفله دوست عزیز!")
             message.delete()
     elif message.text:
