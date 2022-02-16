@@ -156,13 +156,13 @@ def logaritm(client,message):
 @app.on_message(filters.group  &filters.regex("^(s|S)in "))
 def sinos(client,message):
     x=int(str(message.text)[4:])
-    sin=math.sin(x)
+    sin=math.sin(math.radians(x))
     message.reply(f"**Result:** `{sin}`")
 
 @app.on_message(filters.group  &filters.regex("^(c|C)os "))
 def sinos(client,message):
     x=int(str(message.text)[4:])
-    cos=math.cos(x)
+    cos=math.cos(math.radians(x))
     message.reply(f"**Result:** `{cos}`")
 
 @app.on_message(filters.group  &filters.regex("^(p|P)erm "))
