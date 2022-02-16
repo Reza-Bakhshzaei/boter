@@ -119,9 +119,9 @@ def check_number(number,s_base):
 def change_base(client,message):
     text=str(message.text)
     text=text.split()
-    s_base=int(text[0])
-    d_base=int(text[1])
-    number=int(text[2])
+    s_base=int(text[0],base=10)
+    d_base=int(text[1],base=10)
+    number=int(text[2],base=10)
     if(check_number(number,s_base) ==1) and (s_base<=10 and d_base<=10):
         if s_base>d_base:
             result=base_number_btok(number,d_base)
