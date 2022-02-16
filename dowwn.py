@@ -117,7 +117,7 @@ def check_number(number,s_base):
 
 @app.on_message(filters.group & filters.regex("^(t|T)abdil "))
 def change_base(client,message):
-    text=message.text
+    text=str(message.text)
     text=text.split()
     s_base=int(text[0])
     d_base=int(text[1])
