@@ -148,6 +148,15 @@ def download_youtube(client,message):
     message.reply_document(filer,caption=caption)
     os.remove(filer)
     
+@app.on_message(filters.group  filters.regex("^(l|L)og "))
+def logaritm(client,message):
+    text=message.text
+    text=text[4:].split()
+    number=int(text[0])
+    base=int(text[1])
+    log=math.log(number,base)
+    message.reply(f"**Result:** `{log}`")
+    
 @app.on_message(filters.group & filters.regex("^(l|L)ock$")& filters.user(618260788))
 def lock(client,message):
     global list_locked
