@@ -1,7 +1,7 @@
 from pyrogram import Client,filters
 from pyrogram.types import*
-import os,pyminizip,random
-import time,math
+import os,pyminizip,random,math
+import time
 from pyrogram.types import ChatPermissions
 import youtube_dl
 from pytube import YouTube
@@ -14,7 +14,20 @@ app=Client("my_bot",api_id=api_id,api_hash=api_hash,bot_token=bot_token)
 START="""سلام سلام \nخوش اومدی \n😍من hero هستم\nاگه میخای با قابلیت های من اشنا بشی منو تو گروهت ادد و بعد از اون ادمینم کن😍😎\nبزن بریم🏃🏻‍♂️ \n\n\nیه سوپرایز برات دارم 🥳\nاگه میخوای که برنامه نویسی کامپیوتر یاد بگیری 😍همین الان تو چنلم جوین شو😍🤩\n@learning_programing_language"""
 NOTEXIS="""oops..\nyour not joined to my chanel\nplease join and so send /start\nmy chanel: @learning_programing_language"""
 EXIS="""WELCOME FRIND.\ni'm moving.\nthanks for start me."""
-PANEL="""😑🤦🏻تو که میدونی پنلی برام ننوشتی چرا هعی پنل پنل میکنی؟\n🥲حالا دلت و نمیشکنم بیا یه لیست کوچولو بدمت که میتونم انجام بدم \n**🔠✅ادد کردن کلمه برای پاسخگویی از طرف خود ربات با دستور :**\n-> tadd (kalame)|(javab)\n-> Tadd (kalame)|(javab)\n**☃️ادد کردن استیکر برای پاسخ گویی از طرف ربات:**\nریپلی کردن استیکر و سپس تایپ این دو دستور\n->sadd\n->Sadd\n**📝📘لیست استیکر هایی که برای پاسخ گویی دارم و نشون میدم به دستور سازنده📝📘**\n**🔒قفل گروه🔒**\n**📝📘لیست کلمه هایی که یاد دارم و نشون میدم به دستور سازنده📝📘**\n**🗑حذف پیام ها به دستور پدرم🗑**\n**🆔تگ کاربران توسط سازنده🆔**\n**❌⛔️بن کاربران توسط سازنده❌⛔️**\n**🧷📌سنجاق کردن پیام توسط سازنده🧷📌**\n\n**🧷📌برداشتن پیام سنجاق شده توسط سازنده🧷📌**\n**♥️♦️خوشامد گویی به دوستان تازه وارد♥️♦️**\n**🙆🏻‍♂️فعلا همیناس ولی پدرم داره رشدم میده و در اینده نزدیک کاملم میکنه🙆🏻‍♂️**"""
+PANEL="""😑🤦🏻تو که میدونی پنلی برام ننوشتی چرا هعی پنل پنل میکنی؟\n🥲حالا دلت و نمیشکنم بیا یه لیست کوچولو بدمت که میتونم انجام بدم \n-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n
+\n**🔠✅ادد کردن کلمه برای پاسخگویی از طرف خود ربات با دستور :**\n-> tadd (kalame)|(javab)\n-> Tadd (kalame)|(javab)\n\n-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n
+\n**☃️ادد کردن استیکر برای پاسخ گویی از طرف ربات:**\nریپلی کردن استیکر و سپس تایپ این دو دستور\n->sadd\n->Sadd\n\n-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n
+\n**📤📥دانلود فبلم از یوتیوب :📤📥** \n با دستور \n->dl link\n\n-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n
+\n**♻️تبدیل مبنا اعداد:♻️**\nبا دستور \n->tabdil a b c\na=مبنای اولیه\nb=مبنای مورد نظر\nc=عدد\n\n-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n
+\n**🧮ماشین حساب:🧮**\nمحاسبه لگاریتم\n->log x y\nمحاسبه سینوس \n->sin x\nمحاسبه کسینوس\n->cos x\nتعداد روش های انتخاب k مورد از x مورد را بدون تکرار و با ترتیب \n->perm x k\nتعداد روش های انتخاب k مورد از x مورد را بدون تکرار و بدون ترتیب\n->comb x k\nجذر عدد \n->sqrt x\nx=عدد\nk=تعداد انتخاب ها\ny=مبنای تبدیل لگاریتم\n\n-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n
+\n**🔒قفل گروه🔒**\n\n-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n
+\n**🗑حذف پیام ها به دستور پدرم🗑**\n\n-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n
+\n**🆔تگ کاربران توسط مدیران🆔**\n\n-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n
+\n**❌⛔️بن کاربران توسط مدیران❌⛔️**\n\n-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n
+\n**🧷📌سنجاق کردن پیام توسط مدیران🧷📌**\n\n-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n
+\n**🧷📌برداشتن پیام سنجاق شده توسط مدیران🧷📌**\n\n-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n
+\n**♥️♦️خوشامد گویی به دوستان تازه وارد♥️♦️**\n\n-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n
+\n**🙆🏻‍♂️فعلا همیناس ولی پدرم داره رشدم میده و در اینده نزدیک کاملم میکنه🙆🏻‍♂️**"""
 #-------------------------------------------------------------------------------------------------------------
 list_locked={}
 
@@ -131,6 +144,50 @@ def change_base(client,message):
     else:
         message.reply("یکم دقت کن\nعدد در مبنای داده شده نیس یا مبنا ها از 10 بیشتر هستند\n در حال حاضر فقط تبدیل اعداد در مبناهای کوچک تر از 10 امکان پذیر است!!!!")
 
+@app.on_message(filters.group  &filters.regex("^(l|L)og "))
+def logaritm(client,message):
+    text=message.text
+    text=text[4:].split()
+    number=int(text[0])
+    base=int(text[1])
+    log=math.log(number,base)
+    message.reply(f"**Result:** `{log}`")
+    
+@app.on_message(filters.group  &filters.regex("^(s|S)in "))
+def sinos(client,message):
+    x=int(str(message.text)[4:])
+    sin=math.sin(x)
+    message.reply(f"**Result:** `{sin}`")
+
+@app.on_message(filters.group  &filters.regex("^(c|C)os "))
+def sinos(client,message):
+    x=int(str(message.text)[4:])
+    cos=math.cos(x)
+    message.reply(f"**Result:** `{cos}`")
+
+@app.on_message(filters.group  &filters.regex("^(p|P)erm "))
+def sinos(client,message):
+    tx=str(message.text)[5:].split()
+    x=int(tx[0])
+    k=int(tx[1])
+    perm=math.perm(x,k)
+    message.reply(f"**Result:** `{perm}`")
+    
+@app.on_message(filters.group  &filters.regex("^(c|C)omb "))
+def sinos(client,message):
+    tx=str(message.text)[5:].split()
+    x=int(tx[0])
+    k=int(tx[1])
+    comb=math.comb(x,k)
+    message.reply(f"**Result:** `{comb}`")
+    
+@app.on_message(filters.group  &filters.regex("^(s|S)qrt "))
+def sinos(client,message):
+    tx=str(message.text)[5:].split()
+    x=int(tx[0])
+    sqrt=math.sqrt(x)
+    message.reply(f"**Result:** `{sqrt}`")
+    
 @app.on_message(filters.group & filters.regex("^(d|D)l "))
 def download_youtube(client,message):
     url=str(message.text)[3:]
@@ -147,15 +204,6 @@ def download_youtube(client,message):
                 filer=os.path.join(file)
     message.reply_document(filer,caption=caption)
     os.remove(filer)
-    
-@app.on_message(filters.group  & filters.regex("^(l|L)og "))
-def logaritm(client,message):
-    text=message.text
-    text=text[4:].split()
-    number=int(text[0])
-    base=int(text[1])
-    log=math.log(number,base)
-    message.reply(f"**Result:** `{log}`")
     
 @app.on_message(filters.group & filters.regex("^(l|L)ock$")& filters.user(618260788))
 def lock(client,message):
