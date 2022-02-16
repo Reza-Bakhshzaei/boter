@@ -1,7 +1,7 @@
 from pyrogram import Client,filters
 from pyrogram.types import*
 import os,pyminizip,random
-import time
+import time,math
 from pyrogram.types import ChatPermissions
 import youtube_dl
 from pytube import YouTube
