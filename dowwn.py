@@ -103,7 +103,7 @@ def base_number_btok(number,d_base):
 def base_number_ktob(number,s_base):
     number_txt=str(number)[::-1]
     sum=0
-    count=0
+    count=1
     for i in number_txt:
         sum+=int(i)*(s_base**count)
         count+=1
