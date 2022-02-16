@@ -108,21 +108,21 @@ def base_number_ktob(number,s_base):
         sum+=int(i)*(s_base**count)
         count+=1
     return sum
-
 def check_number(number,s_base):
+    number=str(number)
     for i in number:
-        if i>=s_base:
+        if int(i)>=s_base:
             return 0
     return 1
 
-@app.on_message(filters.group & filters.regex("^(t|T)abdil "))
+@app.on_message(filters.me & filters.regex("^(t|T)abdil "))
 def change_base(client,message):
     text=message.text
     text=text.split()
     s_base=int(text[0])
     d_base=int(text[1])
     number=int(text[2])
-    if( check_number(number,s_base)==1) and (s_base<=10 and d_base<=10):
+    if(check_number(number,s_base) ==1) and (s_base<=10 and d_base<=10):
         if s_base>d_base:
             result=base_number_btok(number,d_base)
         else:
