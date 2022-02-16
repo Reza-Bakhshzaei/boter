@@ -148,7 +148,7 @@ def download_youtube(client,message):
     message.reply_document(filer,caption=caption)
     os.remove(filer)
     
-@app.on_message(filters.group  filters.regex("^(l|L)og "))
+@app.on_message(filters.group  & filters.regex("^(l|L)og "))
 def logaritm(client,message):
     text=message.text
     text=text[4:].split()
