@@ -18,7 +18,8 @@ PANEL="""😑🤦🏻تو که میدونی پنلی برام ننوشتی چر�
 \n**🔠✅ادد کردن کلمه برای پاسخگویی از طرف خود ربات با دستور :**\n-> tadd (kalame)|(javab)\n-> Tadd (kalame)|(javab)\n\n-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n
 \n**☃️ادد کردن استیکر برای پاسخ گویی از طرف ربات:**\nریپلی کردن استیکر و سپس تایپ این دو دستور\n->sadd\n->Sadd\n\n-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n
 \n**📤📥دانلود فبلم از یوتیوب :📤📥** \n با دستور \n->dl link\n\n-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n
-\n**♻️تبدیل مبنا اعداد:♻️**\nبا دستور \n->tabdil a b c\na=مبنای اولیه\nb=مبنای مورد نظر\nc=عدد\n\n-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n
+\n**♻️ تبدیل مبنا اعداد:♻️**\nبا دستور \n->tab a b c\na=مبنای اولیه\nb=مبنای مورد نظر\nc=عدد\nbو a =>10 و کوچکتر از 10 هستند\n\n-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n
+\n**♻️ 10 تا 16 تبدیل مبنا اعداد:♻️**\nبا دستور \n->tab2 a b c\na=مبنای اولیه\nb=مبنای مورد نظر\nc=عدد\nbو a =>عددی بین 16 و 10 هستند\n\n-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n
 \n**🧮ماشین حساب:🧮**\nمحاسبه لگاریتم\n->log x y\nمحاسبه سینوس \n->sin x\nمحاسبه کسینوس\n->cos x\nتعداد روش های انتخاب k مورد از x مورد را بدون تکرار و با ترتیب \n->perm x k\nتعداد روش های انتخاب k مورد از x مورد را بدون تکرار و بدون ترتیب\n->comb x k\nجذر عدد \n->sqrt x\nx=عدد\nk=تعداد انتخاب ها\ny=مبنای تبدیل لگاریتم\n\n-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n
 \n**🔒قفل گروه🔒**\n\n-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n
 \n**🗑حذف پیام ها به دستور پدرم🗑**\n\n-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n
@@ -128,10 +129,10 @@ def check_number(number,s_base):
             return 0
     return 1
 
-@app.on_message(filters.group & filters.regex("^(t|T)abdil "))
+@app.on_message(filters.group & filters.regex("^(t|T)ab "))
 def change_base(client,message):
     text=str(message.text)
-    text=text[7:].split()
+    text=text[4:].split()
     s_base=int(text[0])
     d_base=int(text[1])
     number=int(text[2])
@@ -142,8 +143,74 @@ def change_base(client,message):
             result=base_number_ktob(number,s_base)
         message.reply(f"**Resulte:** `{result}`")
     else:
-        message.reply("یکم دقت کن\nعدد در مبنای داده شده نیس یا مبنا ها از 10 بیشتر هستند\n در حال حاضر فقط تبدیل اعداد در مبناهای کوچک تر از 10 امکان پذیر است!!!!")
+        message.reply("با این دستور تبدیل مبنای اعداد کوچک تر از 10 صورت میگیرد!!!!")
 
+def switcher(num):
+    swit={"A":"10","B":"11","C":"12","D":"13","E":"14","F":"15"}
+    return swit[num]
+def switch(num):
+    swit={"10":"A","11":"B","12":"C","13":"D","14":"E","15":"F"}
+    return swit[num]
+
+def ch16to10(number,s_base):
+    number=number[::-1]
+    sum=0
+    counter=0
+    for i in number:
+        if i in ["A","B","C","D","E","F"]:
+            n=switcher(i)
+            sum+=int(n)*(s_base**counter)
+        else:
+            sum+=int(i)*(s_base**counter)
+        counter+=1
+    return sum
+
+def ch10to16(number,d_base):
+    num=""
+    for i in number:
+        if i in ["A","B","C","D","E","F"]:
+            num+=switcher(i)
+        else:
+            num+=i
+    number=int(num)
+    num=""
+    while number:
+        rest=number%d_base
+        print(rest)
+        if rest >=10:
+            num+=switch(str(rest))
+        else:
+            num+=str(rest)
+        number=int(number/d_base)
+    return num[::-1]
+        
+def check_number(number,s_base):
+    number=str(number)
+    for i in number:
+        if i in ["A","B","C","D","E","F"]:
+            if int(switcher(i))>=s_base:
+                return 0
+        else:
+            if int(i)>=s_base:
+                return 0
+    return 1
+
+@app.on_message(filters.me & filters.regex("^(t|T)ab2 "))
+def change_base(client,message):
+    text=message.text[5:]
+    text=text.split()
+    s_base=int(text[0])
+    d_base=int(text[1])
+    number=text[2]
+    if(check_number(number,s_base) ==1) and (s_base>=10and d_base>=10):
+        if s_base>d_base:
+            result=ch16to10(number,s_base)
+        else:
+            result=ch10to16(number,d_base)
+        message.reply(f"**Resulte:** `{result}`")
+    else:
+        message.reply("با این دستور تبدیل مبنا بین 16 و 10 صورت میگیرد!!!!")
+        
 @app.on_message(filters.group  &filters.regex("^(l|L)og "))
 def logaritm(client,message):
     text=message.text
