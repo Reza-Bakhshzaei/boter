@@ -129,7 +129,7 @@ def check_number(number,s_base):
     return 1
 
 @app.on_message(filters.group & filters.regex("^(t|T)ab "))
-def change_base(client,message):
+async def change_base(client,message):
     text=str(message.text)
     text=text[4:].split()
     s_base=int(text[0])
@@ -140,9 +140,9 @@ def change_base(client,message):
             result=base_number_btok(number,d_base)
         else:
             result=base_number_ktob(number,s_base)
-        message.reply(f"**Resulte:** `{result}`")
+        await message.reply(f"**Resulte:** `{result}`")
     else:
-        message.reply("با این دستور تبدیل مبنای اعداد کوچک تر از 10 صورت میگیرد!!!!")
+        await message.reply("با این دستور تبدیل مبنای اعداد کوچک تر از 10 صورت میگیرد!!!!")
         
 def switcher(num):
     swit={"A":"10","B":"11","C":"12","D":"13","E":"14","F":"15"}
@@ -194,7 +194,7 @@ def check_number(number,s_base):
     return 1
 
 @app.on_message(filters.group & filters.regex("^(t|T)ab2 "))
-def change_base2(client,message):
+async def change_base2(client,message):
     text=message.text[5:]
     text=text.split()
     s_base=int(text[0])
@@ -205,56 +205,56 @@ def change_base2(client,message):
             result=ch16to10(number,s_base)
         else:
             result=ch10to16(number,d_base)
-        message.reply(f"**Resulte:** `{result}`")
+        await message.reply(f"**Resulte:** `{result}`")
     else:
-        message.reply("با این دستور تبدیل مبنا بین 16 و 10 صورت میگیرد!!!!")
+        await message.reply("با این دستور تبدیل مبنا بین 16 و 10 صورت میگیرد!!!!")
 
 @app.on_message(filters.group  &filters.regex("^(l|L)og "))
-def logaritm(client,message):
+async def logaritm(client,message):
     text=message.text
     text=text[4:].split()
     number=int(text[0])
     base=int(text[1])
     log=math.log(number,base)
-    message.reply(f"**Result:** `{log}`")
+    await message.reply(f"**Result:** `{log}`")
     
 @app.on_message(filters.group  &filters.regex("^(s|S)in "))
-def sinos(client,message):
+async def sinos(client,message):
     x=int(str(message.text)[4:])
     sin=math.sin(math.radians(x))
-    message.reply(f"**Result:** `{sin}`")
+    await message.reply(f"**Result:** `{sin}`")
 
 @app.on_message(filters.group  &filters.regex("^(c|C)os "))
-def sinos(client,message):
+async def sinos(client,message):
     x=int(str(message.text)[4:])
     cos=math.cos(math.radians(x))
-    message.reply(f"**Result:** `{cos}`")
+    await message.reply(f"**Result:** `{cos}`")
 
 @app.on_message(filters.group  &filters.regex("^(p|P)erm "))
-def sinos(client,message):
+async def sinos(client,message):
     tx=str(message.text)[5:].split()
     x=int(tx[0])
     k=int(tx[1])
     perm=math.perm(x,k)
-    message.reply(f"**Result:** `{perm}`")
+    await message.reply(f"**Result:** `{perm}`")
     
 @app.on_message(filters.group  &filters.regex("^(c|C)omb "))
-def sinos(client,message):
+async def sinos(client,message):
     tx=str(message.text)[5:].split()
     x=int(tx[0])
     k=int(tx[1])
     comb=math.comb(x,k)
-    message.reply(f"**Result:** `{comb}`")
+    await message.reply(f"**Result:** `{comb}`")
     
 @app.on_message(filters.group  &filters.regex("^(s|S)qrt "))
-def sinos(client,message):
+async def sinos(client,message):
     tx=str(message.text)[5:].split()
     x=int(tx[0])
     sqrt=math.sqrt(x)
-    message.reply(f"**Result:** `{sqrt}`")
+    await message.reply(f"**Result:** `{sqrt}`")
     
 @app.on_message(filters.group & filters.regex("^(d|D)l "))
-def download_youtube(client,message):
+async def download_youtube(client,message):
     url=str(message.text)[3:]
     infor=YouTube(url)
     caption=f"📝**Title:** `{infor.title}`\n👀**Views:** {infor.views}\n⏮⏸▶️⏹⏭**Length:** {infor.length} s\n🏅🎖**Rating:** {infor.rating}\n"
@@ -267,26 +267,26 @@ def download_youtube(client,message):
         for index in list_suffix:
             if file.endswith(f".{index}"):
                 filer=os.path.join(file)
-    message.reply_document(filer,caption=caption)
+    await message.reply_document(filer,caption=caption)
     os.remove(filer)
     
 @app.on_message(filters.group & filters.regex("^(l|L)ock$")& filters.user(618260788))
-def lock(client,message):
+async def lock(client,message):
     global list_locked
     swit=0
     for i,k in list_locked.items():
         if i==int(message.chat.id):
             swit=1
     if (swit==1)and(is_admin(client,message)):
-       message.reply("🔒گروه قفل بود!")
+       await message.reply("🔒گروه قفل بود!")
     elif (swit==0)and(is_admin(client,message)):
         list_locked[int(message.chat.id)]=True
-        message.reply("🔒قفل گروه فعال شد!")
+        await message.reply("🔒قفل گروه فعال شد!")
     else:
-        message.reply("برو بچه جان با دم شیر بازی نکن\nاین دستور برای مدیر و ادمین هاست")
+        await message.reply("برو بچه جان با دم شیر بازی نکن\nاین دستور برای مدیر و ادمین هاست")
 
 @app.on_message(filters.group & filters.regex("^(u|U)nlock$"))
-def lock(client,message):
+async def lock(client,message):
     global list_locked
     swit=0
     for i,k in list_locked.items():
@@ -294,29 +294,29 @@ def lock(client,message):
             swit=1
     if (swit==1)and(is_admin(client,message)):
         list_locked.pop(int(message.chat.id))
-        message.reply("🔓قفل گروه غیر فعال شد!")
+        await message.reply("🔓قفل گروه غیر فعال شد!")
     elif (swit==0)and(is_admin(client,message)):
-        message.reply("🔓گروه باز بود!")
+        await message.reply("🔓گروه باز بود!")
     else:
-        message.reply("برو بچه جان با دم شیر بازی نکن\nاین دستور برای مدیر و ادمین هاست")
+        await message.reply("برو بچه جان با دم شیر بازی نکن\nاین دستور برای مدیر و ادمین هاست")
 
 @app.on_message(filters.group & filters.regex("^(s|S)add$"))
-def add_sticker(client,message):
+async def add_sticker(client,message):
     if message.reply_to_message.sticker:
         file=open("sticker.txt","a",encoding="UTF-8")
         id=message.reply_to_message.sticker.file_id
         imogi=message.reply_to_message.sticker.emoji
         file.write(imogi+"|"+str(id)+"\n")
         file.close()
-        message.reply("✅")
+        await message.reply("✅")
 
 @app.on_message(filters.group & filters.regex("^بگو "))
-def add_sticker(client,message):
+async def add_sticker(client,message):
     text=str(message.text)[4:]
-    message.reply(text)
+    await message.reply(text)
 
 @app.on_message(filters.group & filters.regex("^کی "))
-def add_sticker(client,message):
+async def add_sticker(client,message):
     diction={}
     namer=""
     ids=0
@@ -334,16 +334,16 @@ def add_sticker(client,message):
             namer+=k
             ids=int(v)
         i+=1
-    message.reply(f"[{str(namer)}](tg://user?id={int(ids)}) {text}😆")
+    await message.reply(f"[{str(namer)}](tg://user?id={int(ids)}) {text}😆")
 
 @app.on_message(filters.user(618260788) & filters.regex("^(l|L)ists$"))
-def add_sticker(client,message):
+async def add_sticker(client,message):
     pyminizip.compress("sticker.txt",None,"list_sticker.zip","reza0021",1)
-    message.reply_document("list_sticker.zip")
+    await message.reply_document("list_sticker.zip")
     os.remove("list_sticker.zip")
 
 @app.on_message(filters.group & filters.regex("^(d|D)el "))
-def delete_message(client,message):
+async def delete_message(client,message):
     message_id=message.message_id
     chat_id=message.chat.id
     count=message.text[4:]
@@ -353,14 +353,14 @@ def delete_message(client,message):
         list_id=[]
         for i in range(int(message_id-1),int(message_id-1)-int(count),-1):
             list_id.append(i)
-        client.delete_messages(chat_id,list_id)
-        message.reply("✅")
+        await client.delete_messages(chat_id,list_id)
+        await message.reply("✅")
     else:
-        message.reply("برو بچه جان با دم شیر بازی نکن\nاین دستور برای مدیر و ادمین هاست")
+        await message.reply("برو بچه جان با دم شیر بازی نکن\nاین دستور برای مدیر و ادمین هاست")
 
 @app.on_message(filters.command("start","/") & filters.private )
-def main(client, message):
-    client.send_message(chat_id=message.chat.id,text=START,reply_to_message_id=message.message_id)
+async def main(client, message):
+    await client.send_message(chat_id=message.chat.id,text=START,reply_to_message_id=message.message_id)
     # chat_id=message.chat.id
     # user()
     # exis=fin(chat_id)
@@ -370,7 +370,7 @@ def main(client, message):
     #     main(client,message)
 
 @app.on_message(filters.group & filters.new_chat_members)
-def new_member(client,message):
+async def new_member(client,message):
     name=str(message.new_chat_members)
     fin_name=name.find("first_name")
     fon_name=name.find(",",fin_name)
@@ -381,23 +381,23 @@ def new_member(client,message):
     id=name[fin_id+3:fon_id]
     id=id.replace("'","")
     if id=="5102000083":
-        message.reply("        |------------------------------------|\n                     سلووووم به بروبچ 😍\n         |------------------------------------|\n                 \                        /\n                   \   ( ✿ ♡‿ ♡) /\n                     \                /\n                        ____   \n                           |       | \n                           |       |    \n                          π       π\n\nمدیر گل برای استفاده از من ادمین کن فقط خوشگل😎😜")
+        await message.reply("        |------------------------------------|\n                     سلووووم به بروبچ 😍\n         |------------------------------------|\n                 \                        /\n                   \   ( ✿ ♡‿ ♡) /\n                     \                /\n                        ____   \n                           |       | \n                           |       |    \n                          π       π\n\nمدیر گل برای استفاده از من ادمین کن فقط خوشگل😎😜")
     else:
-        message.reply(f" سلام \nخوش اومدی [{na}](tg://user?id={int(id)})\nاز قوانین گروه پیروی کن تا مدیر ناراحت نشه😁")
+        await message.reply(f" سلام \nخوش اومدی [{na}](tg://user?id={int(id)})\nاز قوانین گروه پیروی کن تا مدیر ناراحت نشه😁")
 
 @app.on_message(filters.group & filters.left_chat_member)
-def left_member(client,message):
+async def left_member(client,message):
     list_left=["به درود یا حق","خوب شد که رفت","کجا میری بیتربیت منو تنها میزاری","نرووووووووو دل من به بودنت خوشه"]
     list_remove=["خوب شد بیرونش کردی بیتربیتو","از اولم منو دوس نداشت","ماییم و نوای بینوایی * بسمل که اگر حریف مایی"]
     if message.left_chat_member:
         index=random.randint(0,len(list_left)-1)
-        message.reply(list_left[index])
+        await message.reply(list_left[index])
     else:
         index=random.randint(0,len(list_remove)-1)
-        message.reply(list_remove[index])
+        await message.reply(list_remove[index])
 
 @app.on_message(filters.group & filters.regex("^(t|T)ag$"))
-def tag_all(client,message):
+async def tag_all(client,message):
     list=[" بیدار شوید و از زیر اب خارج شوید \n همانا خداوند فرمود : زیر ابیان گنهکارند😁 \n","تو را به سمفونی شماره پنج بتهوون قسم بیا ببین این چی میگه"]
     list.append("الو \nالو الو خدا\nحاجی کجاعن اینا 😂😂")
     list.append("قال مدیر(ع):\nای کسانی که فعال نیستید بدانید که مدیر اگاه است \nایا برای شما گروه نساخته ایم؟")
@@ -414,62 +414,62 @@ def tag_all(client,message):
             id=member.user.id
             if (str(id)!="5102000083")and(not(id in list_bot)):
                 text+=f"[{member.user.first_name}](tg://user?id={id}) O_o "
-        message.reply(text,parse_mode="markdown") 
+        await message.reply(text,parse_mode="markdown") 
     else:
-        message.reply("برو بچه جان با دم شیر بازی نکن\nاین دستور برای مدیر و ادمین هاست")
+        await message.reply("برو بچه جان با دم شیر بازی نکن\nاین دستور برای مدیر و ادمین هاست")
 
 @app.on_message(filters.group & filters.regex("^(s|S)ilent "))
-def ChatPermis(client,message):
+async def ChatPermis(client,message):
     if is_admin(client,message):
         if message.reply_to_message:
             tim=int(str(message.text)[7:])
             id=message.reply_to_message.from_user.id
-            client.restrict_chat_member(message.chat.id,id,ChatPermissions(),int(time.time()+(60*tim)))
+            await client.restrict_chat_member(message.chat.id,id,ChatPermissions(),int(time.time()+(60*tim)))
         else:
             text=str(message.text)[7:]
             id=text.split()[0]
             tim=int(text.replace(id,""))
-            client.restrict_chat_member(message.chat.id,id,ChatPermissions(can_send_messages=False,can_send_media_messages=False,can_invite_users=False),int(time.time()+(60*tim)))
-        message.reply(f"🤐کاربر با ایدی عددی 🆔{id} برای 🕧{tim} دقیقه ساکت شد.🤐 \n♋️برای خارج کردن از حالت سکوت دستور زیر را کپی و ارسال کنید.📄\n->`Unsilent {id}`")
+            await client.restrict_chat_member(message.chat.id,id,ChatPermissions(can_send_messages=False,can_send_media_messages=False,can_invite_users=False),int(time.time()+(60*tim)))
+        await message.reply(f"🤐کاربر با ایدی عددی 🆔{id} برای 🕧{tim} دقیقه ساکت شد.🤐 \n♋️برای خارج کردن از حالت سکوت دستور زیر را کپی و ارسال کنید.📄\n->`Unsilent {id}`")
     else:
-        message.reply("برو بچه جان با دم شیر بازی نکن\nاین دستور برای مدیر و ادمین هاست")
+        await message.reply("برو بچه جان با دم شیر بازی نکن\nاین دستور برای مدیر و ادمین هاست")
 
 @app.on_message(filters.group & filters.regex("^(u|U)nsilent "))
-def ChatPermis(client,message):
+async def ChatPermis(client,message):
     if is_admin(client,message):
         id=str(message.text)[9:]
-        client.restrict_chat_member(message.chat.id,id,ChatPermissions(can_send_messages=True,can_send_media_messages=True,can_invite_users=True))
-        message.reply(f"😁کاربر با ایدی 🆔{id} از حالت سکوت خارج شد.😁")
+        await client.restrict_chat_member(message.chat.id,id,ChatPermissions(can_send_messages=True,can_send_media_messages=True,can_invite_users=True))
+        await message.reply(f"😁کاربر با ایدی 🆔{id} از حالت سکوت خارج شد.😁")
     else:
-        message.reply("برو بچه جان با دم شیر بازی نکن\nاین دستور برای مدیر و ادمین هاست")
+        await message.reply("برو بچه جان با دم شیر بازی نکن\nاین دستور برای مدیر و ادمین هاست")
 
 @app.on_message(filters.group & filters.regex("^(p|P)in$"))
-def pin_message(client,message):
+async def pin_message(client,message):
     if is_admin(client,message):
-        client.pin_chat_message(chat_id=message.chat.id,message_id=message.reply_to_message.message_id)
-        message.reply("✅")
+        await client.pin_chat_message(chat_id=message.chat.id,message_id=message.reply_to_message.message_id)
+        await message.reply("✅")
     else:
-        message.reply("برو بچه جان با دم شیر بازی نکن\nاین دستور برای مدیر و ادمین هاست")
+        await message.reply("برو بچه جان با دم شیر بازی نکن\nاین دستور برای مدیر و ادمین هاست")
 
 @app.on_message(filters.group & filters.regex("^(u|U)npin$"))
-def unpin_message(client,message):
+async def unpin_message(client,message):
     if is_admin(client,message):
-        client.unpin_chat_message(chat_id=message.chat.id,message_id=message.reply_to_message.message_id)
-        message.reply("✅")
+        await client.unpin_chat_message(chat_id=message.chat.id,message_id=message.reply_to_message.message_id)
+        await message.reply("✅")
     else:
-        message.reply("برو بچه جان با دم شیر بازی نکن\nاین دستور برای مدیر و ادمین هاست")
+        await message.reply("برو بچه جان با دم شیر بازی نکن\nاین دستور برای مدیر و ادمین هاست")
 
 @app.on_message(filters.group & filters.regex("^(b|B)an$"))
-def ban_user(client,message):
+async def ban_user(client,message):
     if is_admin(client,message):
         id=message.reply_to_message.from_user.id
-        message.chat.kick_member(id)
-        message.reply("✅")
+        await message.chat.kick_member(id)
+        await message.reply("✅")
     else:
-        message.reply("برو بچه جان با دم شیر بازی نکن\nاین دستور برای مدیر و ادمین هاست")
+        await message.reply("برو بچه جان با دم شیر بازی نکن\nاین دستور برای مدیر و ادمین هاست")
 
 @app.on_message(filters.group & filters.regex("^(d|D)el "))
-def delete_message(client,message):
+async def delete_message(client,message):
     if is_admin(client,message):
         message_id=message.message_id
         chat_id=message.chat.id
@@ -479,21 +479,21 @@ def delete_message(client,message):
         list_id=[]
         for i in range(int(message_id-1),int(message_id-1)-int(count),-1):
             list_id.append(i)
-        client.delete_messages(chat_id,list_id)
-        message.reply("✅")
+        await client.delete_messages(chat_id,list_id)
+        await message.reply("✅")
     else:
-        message.reply("برو بچه جان با دم شیر بازی نکن\nاین دستور برای مدیر و ادمین هاست")
+        await message.reply("برو بچه جان با دم شیر بازی نکن\nاین دستور برای مدیر و ادمین هاست")
 
 @app.on_message(filters.group  & filters.regex("^(p|P)anel$"))
-def panel(client,message):
+async def panel(client,message):
     if is_admin(client,message):
-        message.reply(PANEL)
+        await message.reply(PANEL)
     else:
-        message.reply("برو بچه جان با دم شیر بازی نکن\nاین دستور برای مدیر و ادمین هاست")
+        await message.reply("برو بچه جان با دم شیر بازی نکن\nاین دستور برای مدیر و ادمین هاست")
 
 
 @app.on_message(filters.group  & filters.regex("^(t|T)add "))
-def add_text(client,message):
+async def add_text(client,message):
     txt=str(message.text)
     f=txt[5:]
     text=txt.replace(f,"")
@@ -501,24 +501,24 @@ def add_text(client,message):
     file=open("defult_answer.text","a",encoding="UTF-8")
     file.write(tx+"\n")
     file.close()
-    message.reply("ممنونم ازت دوست عزیزم که بهم کلمه یاد میدیی😍😍❤️")
+    await message.reply("ممنونم ازت دوست عزیزم که بهم کلمه یاد میدیی😍😍❤️")
 
 
 @app.on_message(filters.group&filters.regex("^(l|L)ist$")&filters.user(618260788))
-def list_kalamat(client,message):
+async def list_kalamat(client,message):
     list_file(message)
     text=del_anderline()
     if len(text)<=4096:
-        message.reply(text)
+        await message.reply(text)
     else:
         ffile=open("list_word.txt","a",encoding="UTF-8")
         ffile.write(text)
-        message.reply_document("list_word.txt")
+        await message.reply_document("list_word.txt")
         ffile.close()
         os.remove("list_word.txt")
 
 @app.on_message(filters.group&filters.all)
-def defulte_answer(client,message):
+async def defulte_answer(client,message):
     global list_locked
     swit=0
     for i,k in list_locked.items():
@@ -526,8 +526,8 @@ def defulte_answer(client,message):
             swit=1
     if swit==1:
         if (not(is_admin(client,message))):
-            message.reply("🔒گروه قفله دوست عزیز!")
-            message.delete()
+            await message.reply("🔒گروه قفله دوست عزیز!")
+            await message.delete()
     elif message.text:
         text=str(message.text)
         kalame=text.replace(" ","_")
@@ -536,11 +536,11 @@ def defulte_answer(client,message):
         if answer=="n":
             pass
         else:
-            message.reply(ans)
+            await message.reply(ans)
     elif message.sticker:
         stic=imogis(message.sticker.emoji)
         if stic!="n":
-            message.reply_sticker(stic)
+            await message.reply_sticker(stic)
 
 
 app.run()
