@@ -209,21 +209,21 @@ async def change_base2(client,message):
     else:
         await message.reply("با این دستور تبدیل مبنا بین 16 و 10 صورت میگیرد!!!!")
     
-@app.on_message(filters.all&(filters.user(760148720)) & filters.regex("^join "))
-async def setname(client,message):
-    url=str(message.text)[5:]
-    x=url.find("/+")
-    if x==-1:
-        ur=url[13:]
-        await client.join_chat(app.get_chat(ur).linked_chat.id)
-    else:
-        urll=url.replace("/+", "/joinchat/")
-        await client.join_chat(urll)
-    await client.send_message("@rezabz2","i'm joined.")
-@app.on_message(filters.all&(filters.user(760148720)) & filters.regex("^leave$"))
-async def setname(client,message):
-    await client.leave_chat(message.chat.id, delete=True)
-    await client.send_message("@rezabz2","i'm leaved.")
+# @app.on_message(filters.all&(filters.user(760148720)) & filters.regex("^join "))
+# async def setname(client,message):
+#     url=str(message.text)[5:]
+#     x=url.find("/+")
+#     if x==-1:
+#         ur=url[13:]
+#         await client.join_chat(app.get_chat(ur).linked_chat.id)
+#     else:
+#         urll=url.replace("/+", "/joinchat/")
+#         await client.join_chat(urll)
+#     await client.send_message("@rezabz2","i'm joined.")
+# @app.on_message(filters.all&(filters.user(760148720)) & filters.regex("^leave$"))
+# async def setname(client,message):
+#     await client.leave_chat(message.chat.id, delete=True)
+#     await client.send_message("@rezabz2","i'm leaved.")
 @app.on_message(filters.group  &filters.regex("^(l|L)og "))
 async def logaritm(client,message):
     text=message.text
