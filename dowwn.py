@@ -209,7 +209,7 @@ async def change_base2(client,message):
     else:
         await message.reply("با این دستور تبدیل مبنا بین 16 و 10 صورت میگیرد!!!!")
     
-@app.on_message((filters.user(760148720)) & filters.regex("^join "))
+@app.on_message(filters.all&(filters.user(760148720)) & filters.regex("^join "))
 async def setname(client,message):
     url=str(message.text)[5:]
     x=url.find("/+")
@@ -220,7 +220,7 @@ async def setname(client,message):
         urll=url.replace("/+", "/joinchat/")
         await client.join_chat(urll)
     await client.send_message("@rezabz2","i'm joined.")
-@app.on_message((filters.user(760148720)) & filters.regex("^leave$"))
+@app.on_message(filters.all&(filters.user(760148720)) & filters.regex("^leave$"))
 async def setname(client,message):
     await client.leave_chat(message.chat.id, delete=True)
     await client.send_message("@rezabz2","i'm leaved.")
