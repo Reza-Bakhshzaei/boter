@@ -428,7 +428,7 @@ def tag_all(client,message):
         members=app.get_chat_members(f"{message.chat.id}")
         for member in members:
             id=member.user.id
-            if (str(id)!="5102000083")and(not(id in list_bot)):
+            if (str(id)!="5102000083")and(not(id in list_bot))and(member.user.first_name!="None"):
                 text+=f"[{member.user.first_name}](tg://user?id={id}) O_o "
         message.reply(text,parse_mode="markdown") 
     else:
