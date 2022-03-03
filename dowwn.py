@@ -47,7 +47,7 @@ list_locked={}
 #     return exis-
 def is_admin(client,message):
     list=[] 
-    admins=list(client.get_chat_members(chat_id=message.chat.id,filter="administrators"))
+    admins=client.get_chat_members(chat_id=message.chat.id,filter="administrators")
     for admin in admins:
         list.append(admin.user.id)
     if message.from_user.id in list:
@@ -136,11 +136,11 @@ async def change_base(client,message):
     s_base=int(text[0])
     d_base=int(text[1])
     number=int(text[2])
-    if(check_number(number,s_base) ==1) and (s_base<=10 and d_base<=10):
+    if(await check_number(number,s_base) ==1) and (s_base<=10 and d_base<=10):
         if s_base>d_base:
-            result=base_number_btok(number,d_base)
+            result=await base_number_btok(number,d_base)
         else:
-            result=base_number_ktob(number,s_base)
+            result=await base_number_ktob(number,s_base)
         await message.reply(f"**Resulte:** `{result}`")
     else:
         await message.reply("با این دستور تبدیل مبنای اعداد کوچک تر از 10 صورت میگیرد!!!!")
@@ -201,11 +201,11 @@ async def change_base2(client,message):
     s_base=int(text[0])
     d_base=int(text[1])
     number=text[2]
-    if(check_number(number,s_base) ==1) and (s_base>=10and d_base>=10):
+    if(await check_number(number,s_base) ==1) and (s_base>=10and d_base>=10):
         if s_base>d_base:
-            result=ch16to10(number,s_base)
+            result=await ch16to10(number,s_base)
         else:
-            result=ch10to16(number,d_base)
+            result=await ch10to16(number,d_base)
         await message.reply(f"**Resulte:** `{result}`")
     else:
         await message.reply("با این دستور تبدیل مبنا بین 16 و 10 صورت میگیرد!!!!")
@@ -293,9 +293,9 @@ async def lock(client,message):
     for i,k in list_locked.items():
         if i==int(message.chat.id):
             swit=1
-    if (swit==1)and(is_admin(client,message)):
+    if (swit==1)and(await is_admin(client,message)):
        await message.reply("🔒گروه قفل بود!")
-    elif (swit==0)and(is_admin(client,message)):
+    elif (swit==0)and(await is_admin(client,message)):
         list_locked[int(message.chat.id)]=True
         await message.reply("🔒قفل گروه فعال شد!")
     else:
@@ -308,10 +308,10 @@ async def lock(client,message):
     for i,k in list_locked.items():
         if i==int(message.chat.id):
             swit=1
-    if (swit==1)and(is_admin(client,message)):
+    if (swit==1)and(await is_admin(client,message)):
         list_locked.pop(int(message.chat.id))
         await message.reply("🔓قفل گروه غیر فعال شد!")
-    elif (swit==0)and(is_admin(client,message)):
+    elif (swit==0)and(await is_admin(client,message)):
         await message.reply("🔓گروه باز بود!")
     else:
         await message.reply("برو بچه جان با دم شیر بازی نکن\nاین دستور برای مدیر و ادمین هاست")
@@ -363,7 +363,7 @@ async def delete_message(client,message):
     message_id=message.message_id
     chat_id=message.chat.id
     count=message.text[4:]
-    if is_admin(client,message):
+    if await is_admin(client,message):
         if count=="all":
             count=message_id
         list_id=[]
@@ -421,7 +421,7 @@ async def tag_all(client,message):
     list.append("قال مدیر(ع):\nوای بر انان که فعال نیستند \nبترسید از روزی که اخراج شوید😒")
     tex=list[random.randint(0,len(list)-1)]
     text=tex+"\n"
-    if is_admin(client,message):
+    if await is_admin(client,message):
         list_bot=[]
         for bots in client.get_chat_members(chat_id=message.chat.id,filter="bots"):
             list_bot.append(bots.user.id)
@@ -436,7 +436,7 @@ async def tag_all(client,message):
 
 @app.on_message(filters.group & filters.regex("^(s|S)ilent "))
 async def ChatPermis(client,message):
-    if is_admin(client,message):
+    if await is_admin(client,message):
         if message.reply_to_message:
             tim=int(str(message.text)[7:])
             id=message.reply_to_message.from_user.id
@@ -461,7 +461,7 @@ async def ChatPermis(client,message):
 
 @app.on_message(filters.group & filters.regex("^(p|P)in$"))
 async def pin_message(client,message):
-    if is_admin(client,message):
+    if await is_admin(client,message):
         await client.pin_chat_message(chat_id=message.chat.id,message_id=message.reply_to_message.message_id)
         await message.reply("✅")
     else:
@@ -469,7 +469,7 @@ async def pin_message(client,message):
 
 @app.on_message(filters.group & filters.regex("^(u|U)npin$"))
 async def unpin_message(client,message):
-    if is_admin(client,message):
+    if await is_admin(client,message):
         await client.unpin_chat_message(chat_id=message.chat.id,message_id=message.reply_to_message.message_id)
         await message.reply("✅")
     else:
@@ -477,7 +477,7 @@ async def unpin_message(client,message):
 
 @app.on_message(filters.group & filters.regex("^(b|B)an$"))
 async def ban_user(client,message):
-    if is_admin(client,message):
+    if await is_admin(client,message):
         id=message.reply_to_message.from_user.id
         await message.chat.kick_member(id)
         await message.reply("✅")
@@ -486,7 +486,7 @@ async def ban_user(client,message):
 
 @app.on_message(filters.group & filters.regex("^(d|D)el "))
 async def delete_message(client,message):
-    if is_admin(client,message):
+    if await is_admin(client,message):
         message_id=message.message_id
         chat_id=message.chat.id
         count=message.text[4:]
@@ -502,7 +502,7 @@ async def delete_message(client,message):
 
 @app.on_message(filters.group  & filters.regex("^(p|P)anel$"))
 async def panel(client,message):
-    if is_admin(client,message):
+    if await is_admin(client,message):
         await message.reply(PANEL)
     else:
         await message.reply("برو بچه جان با دم شیر بازی نکن\nاین دستور برای مدیر و ادمین هاست")
@@ -522,8 +522,8 @@ async def add_text(client,message):
 
 @app.on_message(filters.group&filters.regex("^(l|L)ist$")&filters.user(618260788))
 async def list_kalamat(client,message):
-    list_file(message)
-    text=del_anderline()
+    await list_file(message)
+    text=await del_anderline()
     if len(text)<=4096:
         await message.reply(text)
     else:
@@ -541,13 +541,13 @@ async def defulte_answer(client,message):
         if i==int(message.chat.id):
             swit=1
     if swit==1:
-        if (not(is_admin(client,message))):
+        if (not(await is_admin(client,message))):
             await message.reply("🔒گروه قفله دوست عزیز!")
             await message.delete()
     elif message.text:
         text=str(message.text)
         kalame=text.replace(" ","_")
-        answer=find_message(kalame)
+        answer=await find_message(kalame)
         ans=answer.replace("_"," ")
         if answer=="n":
             pass
