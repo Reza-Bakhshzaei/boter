@@ -502,7 +502,7 @@ async def delete_message(client,message):
 
 @app.on_message(filters.group  & filters.regex("^(p|P)anel$"))
 async def panel(client,message):
-    if await is_admin(client,message):
+    if is_admin(client,message):
         await message.reply(PANEL)
     else:
         await message.reply("برو بچه جان با دم شیر بازی نکن\nاین دستور برای مدیر و ادمین هاست")
@@ -541,7 +541,7 @@ async def defulte_answer(client,message):
         if i==int(message.chat.id):
             swit=1
     if swit==1:
-        if (not(await is_admin(client,message))):
+        if (not(is_admin(client,message))):
             await message.reply("🔒گروه قفله دوست عزیز!")
             await message.delete()
     elif message.text:
