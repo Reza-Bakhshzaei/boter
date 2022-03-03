@@ -47,7 +47,7 @@ list_locked={}
 #     return exis-
 def is_admin(client,message):
     list=[] 
-    admins=client.get_chat_members(chat_id=message.chat.id,filter="administrators")
+    admins=list(client.get_chat_members(chat_id=message.chat.id,filter="administrators"))
     for admin in admins:
         list.append(admin.user.id)
     if message.from_user.id in list:
