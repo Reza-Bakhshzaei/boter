@@ -1,1 +1,1 @@
-bot: python dowwn.py
+bot: python main.py
