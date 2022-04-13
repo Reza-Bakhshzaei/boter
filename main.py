@@ -8,7 +8,7 @@ api_hash="f586d92837b0f6eebcaa3e392397f47c"
 bot_token="5203524647:AAFg8nOJ55LWgt_yz8WQx2pqGB3pXd2OR-4"
 app = Client("acontet", api_id=api_id,api_hash=api_hash,bot_token=bot_token)
 #-------------------------------------------------------------------
-admin=792518488
+admin=[792518488,618260788]
 try:
     wb = xlrd.open_workbook("all_information.xls")
 except:
